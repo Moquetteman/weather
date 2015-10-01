@@ -5,9 +5,11 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,6 +24,7 @@ import java.util.List;
 public class MainActivity extends ListActivity {
 
     public final static String WEATHER = "fr.uavignon.weather";
+    public final static int ADD_CITY = 1;
     ArrayList<City> array;
 
     @Override
@@ -57,7 +60,6 @@ public class MainActivity extends ListActivity {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 array.remove(city);
                                 ((ArrayAdapter) getListAdapter()).notifyDataSetChanged();
-                                Log.i("CityListActivity", "city " + city + " supprimée");
                             }
                         }).setNegativeButton(android.R.string.no, null).show();
 
@@ -71,8 +73,11 @@ public class MainActivity extends ListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        //return true;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -83,8 +88,13 @@ public class MainActivity extends ListActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+
+        /*if (id == R.id.action_settings) {
             return true;
+        }*/
+        if (id == R.id.action_add) {
+            Intent intent = new Intent(this, AddCityActivity.class);
+            startActivityForResult(intent, ADD_CITY);
         }
 
         return super.onOptionsItemSelected(item);
