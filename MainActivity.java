@@ -1,26 +1,70 @@
 package uavignon.fr.weather;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends ListActivity {
+
+    public final static String WEATHER = "fr.uavignon.weather";
+    ArrayList<City> array;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ArrayList array = new ArrayList<>();
-        array.add("Brest (France)");
-        array.add("Marseille (France)");
-        array.add("Montreal (Canada)");
-        array.add("Istanbul (Turkey)");
-        array.add("Seoul (Korea)");
+        //setContentView(R.layout.activity_main);
+        array = new ArrayList<>();
+        City city1 = new City("Brest", "France");
+        City city2 = new City("Marseille","France");
+        City city3 = new City("Montreal","Canada");
+        City city4 = new City("Istanbul","Turkey");
+        City city5 = new City("Seoul","Korea");
+
+        array.add(city1);
+        array.add(city2);
+        array.add(city3);
+        array.add(city4);
+        array.add(city5);
+
+        ArrayAdapter<City> adapter = new ArrayAdapter<City>(this, android.R.layout.simple_list_item_1, android.R.id.text1, array);
+        setListAdapter(adapter);
+
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final City city = array.get(i);
+
+                new AlertDialog.Builder(MainActivity.this).setTitle("Confirmation")
+                        .setMessage("Supprimer une ville")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                array.remove(city);
+                                ((ArrayAdapter) getListAdapter()).notifyDataSetChanged();
+                                Log.i("CityListActivity", "city " + city + " supprimée");
+                            }
+                        }).setNegativeButton(android.R.string.no, null).show();
+
+                return true;
+            }
+        });
+
 
     }
 
@@ -44,5 +88,15 @@ public class MainActivity extends ListActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id)
+    {
+        Intent intent = new Intent(this, CityView.class);
+        intent.putExtra(WEATHER, array.get(position));
+
+        startActivity(intent);
     }
 }
