@@ -12,7 +12,6 @@ public class City implements Serializable{
     protected String country;
     protected String lastweather; //date
     protected String wind; //km/h
-    protected String windDirection;
     protected String pressure; //hPa
     protected String temperature; // Celsius
 
@@ -22,7 +21,6 @@ public class City implements Serializable{
         this.country = country;
         this.lastweather = null;
         this.wind = null;
-        this.windDirection = null;
         this.pressure = null;
         this.temperature = null;
     }
@@ -48,9 +46,6 @@ public class City implements Serializable{
         return wind;
     }
 
-    public String getWindDirection() {
-        return windDirection;
-    }
 
     public String getPressure() {
         return pressure;
@@ -76,9 +71,6 @@ public class City implements Serializable{
         this.wind = wind;
     }
 
-    public void setWindDirection(String windDirection) {
-        this.windDirection = windDirection;
-    }
 
     public void setPressure(String pressure) {
         this.pressure = pressure;

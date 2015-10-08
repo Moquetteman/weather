@@ -1,23 +1,29 @@
 package uavignon.fr.weather;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class CityView extends ActionBarActivity {
+public class CityView extends Activity {
 
+    City city1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_view);
 
         Intent intent = getIntent();
-        City city1 = (City)intent.getSerializableExtra(MainActivity.WEATHER);
+        city1 = (City)intent.getSerializableExtra(MainActivity.WEATHER);// Récupération de la ville qui a été envoyée
 
-        //TextView textView1 = findViewById(R.id.)
+        update();
+    }
+
+    public void update()
+    {
+        //Récupération des données de la ville et assignation dans les textes afficher à l'écran
         TextView textView = (TextView)findViewById(R.id.textView7);
         textView.setText(city1.getCity());
 
@@ -31,10 +37,7 @@ public class CityView extends ActionBarActivity {
         textView3.setText(city1.getPressure());
 
         TextView textView4 = (TextView)findViewById(R.id.textView11);
-        textView4.setText(city1.getPressure());
-
-        TextView textView5 = (TextView)findViewById(R.id.textView13);
-        textView5.setText(city1.getPressure());
+        textView4.setText(city1.getTemperature());
 
         TextView textView6 = (TextView)findViewById(R.id.textView14);
         textView6.setText(city1.getLastweather());
@@ -61,4 +64,5 @@ public class CityView extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
